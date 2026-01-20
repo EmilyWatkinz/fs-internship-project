@@ -1,8 +1,112 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
+
+  useEffect(() => {
+    // Check if user is logged in from localStorage
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleGuestLogin = () => {
+    const guestUser = {
+      email: "guest@summarist.com",
+      displayName: "Guest User",
+      isGuest: true
+    };
+    setUser(guestUser);
+    localStorage.setItem("user", JSON.stringify(guestUser));
+    setShowLoginModal(false);
+    setError("");
+    router.push("/for-you");
+  };
+
+  const handleEmailLogin = (e) => {
+    e.preventDefault();
+    setError("");
+
+    // Validate email
+    if (!validateEmail(email)) {
+      setError("Invalid email");
+      return;
+    }
+
+    if (isRegisterMode) {
+      // Registration mode
+      if (password.length < 6) {
+        setError("Short password");
+        return;
+      }
+
+      const newUser = {
+        email: email,
+        displayName: email.split("@")[0],
+        isGuest: false
+      };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      // Also save registered users list
+      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      registeredUsers.push({ email, password });
+      localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
+      setShowLoginModal(false);
+      setEmail("");
+      setPassword("");
+      setError("");
+      setIsRegisterMode(false);
+      router.push("/for-you");
+    } else {
+      // Login mode
+      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
+      const userExists = registeredUsers.find(u => u.email === email && u.password === password);
+      
+      if (!userExists) {
+        setError("User not found");
+        return;
+      }
+
+      const newUser = {
+        email: email,
+        displayName: email.split("@")[0],
+        isGuest: false
+      };
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      setShowLoginModal(false);
+      setEmail("");
+      setPassword("");
+      setError("");
+      router.push("/for-you");
+    }
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
+
+  const toggleMode = () => {
+    setIsRegisterMode(!isRegisterMode);
+    setError("");
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <>
@@ -18,7 +122,20 @@ export default function Home() {
             <img className="nav__img" src="/assets/logo.png" alt="logo" />
           </figure>
           <ul className="nav__list--wrapper">
-            <li className="nav__list nav__list--login" onClick={() => setShowLoginModal(true)}>Login</li>
+            {user ? (
+              <>
+                <li className="nav__list nav__list--user">
+                  Welcome, {user.displayName}
+                </li>
+                <li className="nav__list nav__list--login" onClick={handleLogout}>
+                  Logout
+                </li>
+              </>
+            ) : (
+              <li className="nav__list nav__list--login" onClick={() => setShowLoginModal(true)}>
+                Login
+              </li>
+            )}
             <li className="nav__list nav__list--mobile">About</li>
             <li className="nav__list nav__list--mobile">Contact</li>
             <li className="nav__list nav__list--mobile">Help</li>
@@ -30,9 +147,15 @@ export default function Home() {
         <div className="modal__overlay" onClick={() => setShowLoginModal(false)}>
           <div className="modal__card" onClick={(e) => e.stopPropagation()}>
             <button className="modal__close" onClick={() => setShowLoginModal(false)}>×</button>
-            <h2 className="modal__title">Log in to Summarist</h2>
+            <h2 className="modal__title">{isRegisterMode ? "Register to Summarist" : "Log in to Summarist"}</h2>
             
-            <button className="modal__btn modal__btn--guest">
+            {error && (
+              <div className="modal__error">
+                {error}
+              </div>
+            )}
+            
+            <button className="modal__btn modal__btn--guest" onClick={handleGuestLogin}>
               Login as Guest
             </button>
             
@@ -49,23 +172,33 @@ export default function Home() {
               <span>or</span>
             </div>
             
-            <div className="modal__form">
+            <form className="modal__form" onSubmit={handleEmailLogin}>
               <input 
                 type="email" 
                 placeholder="Email Address" 
                 className="modal__input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <input 
                 type="password" 
                 placeholder="Password" 
                 className="modal__input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              <button className="modal__btn modal__btn--login">Login</button>
-            </div>
+              <button type="submit" className="modal__btn modal__btn--login">
+                {isRegisterMode ? "Register" : "Login"}
+              </button>
+            </form>
             
             <div className="modal__footer">
               <a href="#" className="modal__link">Forgot your password?</a>
-              <a href="#" className="modal__link">Don't have an account?</a>
+              <a href="#" className="modal__link" onClick={(e) => { e.preventDefault(); toggleMode(); }}>
+                {isRegisterMode ? "Already have an account?" : "Don't have an account?"}
+              </a>
             </div>
           </div>
         </div>
@@ -87,7 +220,14 @@ export default function Home() {
                   <br className="remove--tablet" />
                   and even people who don't like to read.
                 </div>
-                <button className="btn home__cta--btn" onClick={() => setShowLoginModal(true)}>Login</button>
+                {!user && (
+                  <button className="btn home__cta--btn" onClick={() => setShowLoginModal(true)}>Login</button>
+                )}
+                {user && (
+                  <div className="landing__logged-in">
+                    <p>Welcome back, {user.displayName}! Start exploring books.</p>
+                  </div>
+                )}
               </div>
               <figure className="landing__image--mask">
                 <img src="/assets/landing.png" alt="landing" />
@@ -230,9 +370,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="reviews__btn--wrapper">
-              <button className="btn home__cta--btn" onClick={() => setShowLoginModal(true)}>Login</button>
-            </div>
+            {!user && (
+              <div className="reviews__btn--wrapper">
+                <button className="btn home__cta--btn" onClick={() => setShowLoginModal(true)}>Login</button>
+              </div>
+            )}
           </div>
         </div>
       </section>

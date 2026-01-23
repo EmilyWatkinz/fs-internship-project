@@ -12,7 +12,6 @@ export default function Home() {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -41,14 +40,14 @@ export default function Home() {
     e.preventDefault();
     setError("");
 
-    // Validate email
+
     if (!validateEmail(email)) {
       setError("Invalid email");
       return;
     }
 
     if (isRegisterMode) {
-      // Registration mode
+    
       if (password.length < 6) {
         setError("Short password");
         return;
@@ -61,7 +60,6 @@ export default function Home() {
       };
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
-      // Also save registered users list
       const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
       registeredUsers.push({ email, password });
       localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
@@ -72,7 +70,7 @@ export default function Home() {
       setIsRegisterMode(false);
       router.push("/for-you");
     } else {
-      // Login mode
+      
       const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
       const userExists = registeredUsers.find(u => u.email === email && u.password === password);
       

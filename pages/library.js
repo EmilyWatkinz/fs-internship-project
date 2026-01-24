@@ -10,6 +10,17 @@ export default function Library() {
   const [activeTab, setActiveTab] = useState('saved'); 
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      router.push(`/for-you?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
 
   useEffect(() => {
     const savedUser = localStorage.getItem("user");

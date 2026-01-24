@@ -279,6 +279,10 @@ button:disabled {
 }
 
 /* LANDING */
+#landing {
+  padding-top: 80px;
+}
+
 .landing__wrapper {
   display: flex;
 }
@@ -1285,6 +1289,9 @@ button:disabled {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .recommended__book-card {
@@ -2010,6 +2017,9 @@ button:disabled {
   .recommended__books {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 
@@ -2162,6 +2172,8 @@ button:disabled {
   display: flex;
   gap: 16px;
   border-bottom: 2px solid #e1e7ea;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .library-page__tab {
@@ -2235,6 +2247,9 @@ button:disabled {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 32px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .library-book {
@@ -3076,11 +3091,14 @@ button:disabled {
   .for-you__container,
   .settings-page,
   .library-page {
-    margin-left: 0;
-    padding: 80px 16px 40px;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+    margin-left: 0 !important;
+    padding: 80px 16px 40px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
   }
 
   .settings-page {
@@ -3127,19 +3145,69 @@ button:disabled {
   .for-you__title,
   .settings-page__title,
   .library-page__title {
-    font-size: 24px;
+    font-size: 24px !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .library-page__header {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .library-page__tabs {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .library-page__grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 20px !important;
+  }
+
+  .library-book {
+    width: 100% !important;
+    max-width: 350px !important;
   }
 
   .for-you__books-grid {
     grid-template-columns: 1fr;
   }
 
+  .selected-book,
+  .recommended {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .recommended__books {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 20px !important;
+  }
+
+  .recommended__book {
+    width: 100% !important;
+    max-width: 350px !important;
+  }
+
   .selected-book__card {
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 16px;
-    text-align: center;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 20px !important;
+    gap: 16px !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 350px !important;
   }
 
   .selected-book__subtitle-section {
@@ -3194,10 +3262,12 @@ button:disabled {
 
   .recommended-books__wrapper,
   .suggested-books__wrapper {
-    overflow-x: auto;
+    overflow-x: hidden;
     display: flex;
+    flex-direction: column;
     gap: 16px;
     padding-bottom: 16px;
+    align-items: center;
   }
 
   .recommended-book,
@@ -3271,12 +3341,17 @@ button:disabled {
 
   /* Library Page */
   .library-page__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   .library-page__tabs {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
+    justify-content: center;
   }
 
   /* Settings Page */
@@ -3324,88 +3399,525 @@ button:disabled {
   }
 }
 
-/* Small Mobile (480px and below) */
+/* Small Mobile (480px and below) - KEEP BOOK SIZES SAME, JUST SINGLE COLUMN */
 @media (max-width: 480px) {
+  .for-you__container,
+  .library-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .library-page__tabs {
+    overflow-x: hidden !important;
+    justify-content: center !important;
+  }
+
+  .library-page__grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 32px !important;
+  }
+
+  .library-book {
+    width: 100% !important;
+    max-width: 450px !important;
+  }
+
+  .recommended__books {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 32px !important;
+  }
+
+  .recommended__book {
+    width: 100% !important;
+    max-width: 450px !important;
+  }
+}
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    overflow-x: hidden !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
   .container {
-    padding: 0 16px;
+    padding: 0 8px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .row {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 8px !important;
+    overflow-x: hidden !important;
   }
 
   .for-you__container,
   .settings-page,
   .library-page {
-    padding: 60px 16px 32px;
-    margin-left: 0;
-    max-width: 100%;
+    padding: 60px 8px 32px !important;
+    margin-left: 0 !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .library-page__header {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+  }
+
+  .library-page__title {
+    font-size: 20px !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+  }
+
+  .library-page__tabs {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    border-bottom: 2px solid #e1e7ea !important;
+    gap: 0 !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .library-page__tab {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+
+  .library-page__grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    overflow-x: hidden !important;
+    padding: 20px 0 !important;
+    margin: 0 !important;
+  }
+
+  .library-book {
+    width: calc(100vw - 32px) !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .library-book__image-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .library-book__image {
+    width: 160px !important;
+    height: 230px !important;
+  }
+
+  .nav {
+    padding: 12px 16px;
+  }
+
+  .hamburger-menu {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav__img--mask {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search__input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .sidebar {
+    width: 220px;
+    padding: 32px 0;
+  }
+
+  .sidebar__item {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .sidebar__icon {
+    width: 18px;
+    height: 18px;
   }
 
   .for-you__title,
   .settings-page__title,
   .library-page__title {
     font-size: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .selected-book {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px !important;
+    padding: 0 !important;
   }
 
   .selected-book__title {
-    font-size: 20px;
+    font-size: 18px !important;
+    margin-bottom: 16px !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .selected-book__card {
+    padding: 16px !important;
+    gap: 12px !important;
+    max-width: calc(100vw - 32px) !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
   }
 
   .selected-book__subtitle {
-    font-size: 14px;
+    font-size: 11px !important;
+  }
+
+  .selected-book__image {
+    width: 140px !important;
+    max-width: 140px !important;
+    height: 200px !important;
+  }
+
+  .selected-book__book-title {
+    font-size: 16px !important;
+  }
+
+  .selected-book__author {
+    font-size: 13px !important;
+  }
+
+  .selected-book__play-btn {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .selected-book__audio-length {
+    font-size: 12px !important;
+  }
+
+  .selected-book__info {
+    gap: 4px !important;
+  }
+
+  .recommended {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .recommended__header {
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+
+  .recommended__title {
+    font-size: 18px !important;
+  }
+
+  .recommended__subtitle {
+    font-size: 13px !important;
+  }
+
+  .recommended__books {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .recommended__book {
+    padding: 16px !important;
+    width: calc(100vw - 32px) !important;
+    max-width: 320px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    margin: 0 auto !important;
+  }
+
+  .recommended__book-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .recommended__book-image {
+    height: 230px !important;
+    width: 160px !important;
+    margin: 0 auto 12px !important;
+  }
+
+  .recommended__book-title {
+    font-size: 16px !important;
+    margin-bottom: 6px !important;
+    text-align: center !important;
+  }
+
+  .recommended__book-author {
+    font-size: 14px !important;
+    text-align: center !important;
+  }
+
+  .recommended__book-subtitle {
+    font-size: 13px !important;
+    text-align: center !important;
+  }
+
+  .recommended__book-duration,
+  .recommended__book-details span {
+    font-size: 12px !important;
+  }
+
+  .recommended__book-details {
+    justify-content: center !important;
   }
 
   .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .book-page {
+    padding: 60px 12px 32px;
+  }
+
+  .book-page__title {
+    font-size: 18px;
+  }
+
+  .book-page__author {
+    font-size: 13px;
+  }
+
+  .book-page__subtitle {
+    font-size: 14px;
+  }
+
+  .book-page__content {
+    font-size: 14px;
+  }
+
+  .book-page__image-wrapper {
+    width: 140px;
+    height: 200px;
+  }
+
+  .book-page__details-item {
+    font-size: 13px;
+  }
+
+  .book-page__tabs {
+    gap: 12px;
+  }
+
+  .book-page__tab {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .player-page {
+    padding: 60px 12px 32px;
+  }
+
+  .player-page__title {
+    font-size: 16px;
+  }
+
+  .player-page__text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .audio-player-bar {
+    padding: 10px 12px;
+  }
+
+  .audio-player-bar__controls {
+    gap: 10px;
+  }
+
+  .audio-player-bar__skip-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .audio-player-bar__play-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .audio-player-bar__time {
+    font-size: 11px;
+  }
+
+  .pricing__hero-title {
+    font-size: 24px;
+  }
+
+  .pricing__hero-subtitle {
+    font-size: 14px;
+  }
+
+  .pricing__cta-btn {
     padding: 12px 24px;
     font-size: 14px;
   }
 
-  .book-page__title {
-    font-size: 20px;
+  .pricing__plan {
+    padding: 20px 16px;
   }
 
-  .book-page__author {
-    font-size: 14px;
-  }
-
-  .player-page__title {
-    font-size: 18px;
-  }
-
-  .audio-player-bar {
-    padding: 12px 16px;
-  }
-
-  .audio-player-bar__controls {
-    gap: 12px;
-  }
-
-  .audio-player-bar__skip-btn {
-    width: 32px;
-    height: 32px;
-  }
-
-  .audio-player-bar__play-btn {
-    width: 40px;
-    height: 40px;
-  }
-
-  .pricing__hero-title {
-    font-size: 28px;
-  }
-
-  .pricing__cta-btn {
-    padding: 14px 32px;
+  .pricing__plan-name {
     font-size: 16px;
   }
 
+  .pricing__plan-price {
+    font-size: 32px;
+  }
+
+  .pricing__feature {
+    font-size: 13px;
+  }
+
+  .library-page__grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+  }
+
+  .library-book {
+    width: 100% !important;
+    max-width: 280px !important;
+    box-sizing: border-box;
+  }
+
+  .library-page__tabs {
+    width: 100% !important;
+    overflow-x: hidden !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 !important;
+  }
+
   .library-page__tab {
-    padding: 10px 16px;
-    font-size: 14px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .library-page__books {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  .library-page__book {
+    width: 100%;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .library-page__book-image {
+    width: 140px;
+    height: 200px;
   }
 
   .modal__content {
-    padding: 24px 20px;
+    padding: 20px 16px;
+    margin: 0 12px;
   }
 
   .modal__title {
-    font-size: 20px;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .modal__input {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .modal__btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .settings-section {
+    padding: 12px;
+  }
+
+  .settings-section__title {
+    font-size: 16px;
+  }
+
+  .settings-section__item {
+    font-size: 13px;
+  }
+
+  .settings-section__label,
+  .settings-section__value {
+    font-size: 13px;
+  }
+
+  .settings-section__upgrade-btn {
+    font-size: 13px;
+    padding: 10px 14px;
   }
 }
